@@ -77,6 +77,12 @@ class SteamDeckUI {
      * @param {Phaser.Scene} scene - The scene
      */
     static setupControllerInput(scene) {
+        // Check if gamepad plugin is available
+        if (!scene.input.gamepad) {
+            console.log('Gamepad plugin not enabled');
+            return;
+        }
+
         scene.input.gamepad.once('connected', (pad) => {
             console.log('Gamepad connected:', pad.id);
 
