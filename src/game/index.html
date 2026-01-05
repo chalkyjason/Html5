@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phaser Steam Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #game-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container"></div>
+
+    <!-- Phaser 3 from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+
+    <!-- Game Components -->
+    <script type="module" src="js/core/GameManager.js"></script>
+    <script type="module" src="js/core/BaseComponent.js"></script>
+    <script type="module" src="js/core/SteamDeckUI.js"></script>
+    <script type="module" src="js/components/MovementComponent.js"></script>
+    <script type="module" src="js/components/HealthComponent.js"></script>
+    <script type="module" src="js/components/AnimationComponent.js"></script>
+    <script type="module" src="js/components/ShootingComponent.js"></script>
+    <script type="module" src="js/components/EnemyAIComponent.js"></script>
+    <script type="module" src="js/factories/PlayerFactory.js"></script>
+    <script type="module" src="js/factories/EnemyFactory.js"></script>
+    <script type="module" src="js/scenes/BootScene.js"></script>
+    <script type="module" src="js/scenes/MainScene.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

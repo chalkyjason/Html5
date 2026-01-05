@@ -1,0 +1,94 @@
+import MovementComponent from '../components/MovementComponent.js';
+import HealthComponent from '../components/HealthComponent.js';
+import ShootingComponent from '../components/ShootingComponent.js';
+import GameManager from '../core/GameManager.js';
+
+/**
+ * PlayerFactory - Creates and configures the player entity
+ *
+ * Uses composition pattern: Sprite + Components
+ */
+class PlayerFactory {
+    /**
+     * Create a player entity
+     * @param {Phaser.Scene} scene - The scene to create the player in
+     * @param {number} x - X position
+     * @param {number} y - Y position
+     * @returns {Phaser.GameObjects.Sprite} - The player game object
+     */
+    static create(scene, x, y) {
+        // Create player sprite (using placeholder graphics)
+        const player = scene.add.rectangle(x, y, 40, 40, 0x00ff00);
+        scene.physics.add.existing(player);
+
+        // Set collision properties
+        player.body.setCollideWorldBounds(true);
+        player.body.setSize(40, 40);
+
+        // Add components
+        const movement = new MovementComponent(player, scene, {
+            speed: 250,
+            isPlayer: true
+        });
+
+        const health = new HealthComponent(player, scene, {
+            maxHealth: 100,
+            invincibleTime: 1500,
+            onDeath: (gameObject) => {
+                PlayerFactory.onPlayerDeath(scene, gameObject);
+            }
+        });
+
+        const shooting = new ShootingComponent(player, scene, {
+            fireRate: 200,
+            bulletSpeed: 500,
+            damage: 25,
+            isPlayer: true
+        });
+
+        // Enable all components
+        movement.enable();
+        health.enable();
+        shooting.enable();
+
+        // Store references for easy access
+        player.movement = movement;
+        player.health = health;
+        player.shooting = shooting;
+
+        // Set player tag
+        player.isPlayer = true;
+
+        console.log('Player created at', x, y);
+        return player;
+    }
+
+    /**
+     * Handle player death
+     */
+    static onPlayerDeath(scene, player) {
+        console.log('Player died!');
+
+        const gameManager = GameManager.getInstance();
+        gameManager.loseLife();
+
+        // Visual feedback
+        scene.cameras.main.shake(500, 0.01);
+
+        // Destroy player with delay
+        scene.time.delayedCall(500, () => {
+            if (gameManager.lives > 0) {
+                // Respawn
+                player.setPosition(640, 360);
+                player.health.revive();
+                console.log('Player respawned. Lives remaining:', gameManager.lives);
+            } else {
+                // Game over
+                player.setVisible(false);
+                scene.showGameOver();
+            }
+        });
+    }
+}
+
+export default PlayerFactory;
