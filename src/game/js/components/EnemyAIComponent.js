@@ -49,11 +49,13 @@ class EnemyAIComponent extends BaseComponent {
             }
         }
 
-        // Face player
-        if (this.player.x < this.gameObject.x) {
-            this.gameObject.setFlipX(true);
-        } else {
-            this.gameObject.setFlipX(false);
+        // Face player (only if using sprite with setFlipX)
+        if (this.gameObject.setFlipX) {
+            if (this.player.x < this.gameObject.x) {
+                this.gameObject.setFlipX(true);
+            } else {
+                this.gameObject.setFlipX(false);
+            }
         }
     }
 

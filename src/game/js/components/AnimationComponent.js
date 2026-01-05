@@ -51,11 +51,13 @@ class AnimationComponent extends BaseComponent {
         if (isMoving) {
             this.playState('walk');
 
-            // Flip sprite based on direction
-            if (velocity.x < 0) {
-                this.gameObject.setFlipX(true);
-            } else if (velocity.x > 0) {
-                this.gameObject.setFlipX(false);
+            // Flip sprite based on direction (only if using sprite)
+            if (this.gameObject.setFlipX) {
+                if (velocity.x < 0) {
+                    this.gameObject.setFlipX(true);
+                } else if (velocity.x > 0) {
+                    this.gameObject.setFlipX(false);
+                }
             }
         } else {
             this.playState('idle');
