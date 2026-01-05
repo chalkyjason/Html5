@@ -125,6 +125,18 @@ class HealthComponent extends BaseComponent {
         this.isDead = false;
         this.currentHealth = this.maxHealth;
         this.isInvincible = false;
+        
+        // Re-enable physics body if it exists
+        if (this.gameObject.body) {
+            this.gameObject.body.setEnable(true);
+        }
+        
+        // Clear any tints
+        if (this.gameObject.clearTint) {
+            this.gameObject.clearTint();
+        }
+        
+        console.log('Entity revived with full health');
     }
 
     /**

@@ -23,7 +23,9 @@ class PlayerFactory {
 
         // Set collision properties
         player.body.setCollideWorldBounds(true);
+        player.body.setBounce(0, 0);
         player.body.setSize(40, 40);
+        player.body.setOffset(0, 0);
 
         // Add components
         const movement = new MovementComponent(player, scene, {
@@ -75,16 +77,26 @@ class PlayerFactory {
         // Visual feedback
         scene.cameras.main.shake(500, 0.01);
 
-        // Destroy player with delay
+        // Make player temporarily invisible but don't disable physics
+        const originalAlpha = player.alpha;
+        player.setAlpha(0.3);
+
+        // Respawn or game over after delay
         scene.time.delayedCall(500, () => {
             if (gameManager.lives > 0) {
                 // Respawn
-                player.setPosition(640, 360);
+                player.setPosition(scene.scale.width / 2, scene.scale.height / 2);
+                player.setAlpha(originalAlpha);
                 player.health.revive();
                 console.log('Player respawned. Lives remaining:', gameManager.lives);
             } else {
                 // Game over
                 player.setVisible(false);
+                player.setActive(false);
+                if (player.body) {
+                    player.body.setVelocity(0, 0);
+                    player.body.setEnable(false);
+                }
                 scene.showGameOver();
             }
         });

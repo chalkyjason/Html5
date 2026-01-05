@@ -56,6 +56,8 @@ class MovementComponent extends BaseComponent {
     handlePlayerInput() {
         const body = this.gameObject.body;
 
+        if (!body || !body.enable) return;
+
         // Reset velocity
         body.setVelocity(0);
 

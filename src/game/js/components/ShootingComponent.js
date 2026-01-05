@@ -56,6 +56,11 @@ class ShootingComponent extends BaseComponent {
     fire(targetX = null, targetY = null) {
         const now = this.scene.time.now;
 
+        // Check if entity is dead
+        if (this.gameObject.health && this.gameObject.health.isDead) {
+            return null;
+        }
+
         // Check fire rate
         if (now - this.lastFired < this.fireRate) {
             return null;
