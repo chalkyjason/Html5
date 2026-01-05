@@ -18,6 +18,9 @@ const config = {
             debug: false // Set to true for development
         }
     },
+    input: {
+        gamepad: true // Enable gamepad support for Steam Deck
+    },
     render: {
         pixelArt: false,
         antialias: true,
